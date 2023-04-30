@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "./logo.png";
+import SearchPokeScreen from "./SearchPokeScreen";
 import "./App.css";
 
 class App extends React.Component {
@@ -13,6 +14,7 @@ class App extends React.Component {
           </p>
           <h1>Test</h1>
           <h2>testing 123</h2>
+          <SearchPokeScreen />
         </header>
       </div>
     );
