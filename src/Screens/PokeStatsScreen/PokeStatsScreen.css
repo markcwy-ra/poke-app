@@ -101,3 +101,12 @@
 .water {
   background-color: #4a7ef7;
 }
+
+.edit-poke-name {
+  border-radius: 1rem;
+  margin: 0.5rem;
+}
+.field-css {
+  width: 15rem;
+  margin: 0.5rem;
+}
