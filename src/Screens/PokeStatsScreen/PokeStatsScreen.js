@@ -14,10 +14,11 @@ import {
 import { storage } from "../../firebase";
 
 const PokeStatsScreen = ({ topten, wishlist }) => {
-  const [editPokeName, setEditPokeName] = useState(false);
+  const [editShow, setEditShow] = useState(false);
+  const [editPokeName, setEditPokeName] = useState("");
   const [editLevel, setEditLevel] = useState("");
   const [fileInputFile, setFileInputFile] = useState(null);
-  const [fileInputValue, setFileInputValue] = useState("");
+  // const [fileInputValue, setFileInputValue] = useState("");
 
   const { link } = useParams();
   const { handleNavigate } = useContext(NavContext);
@@ -28,8 +29,7 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
   const STORE_IMAGE_KEY = "images";
 
   const handleEditPokeName = () => {
-    setEditPokeName(true);
-    console.log("change pokemon name", editPokeName);
+    setEditShow(true);
   };
 
   const handleChange = (e) => {
@@ -48,35 +48,47 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
     e.preventDefault();
 
     if (listName === "topten") {
-      const fileRef = storeRef(
-        storage,
-        `${STORE_IMAGE_KEY}/${fileInputFile.name}`
+      //Making a reference to the database, to the location where we want to edit (database, URL), the URL is found from accessing our Firebase database console:
+      let pokeRef = ref(
+        database,
+        `users/${user.name.toLowerCase()}/topten/${pokeName}`
       );
-      uploadBytesResumable(fileRef, fileInputFile).then(() => {
-        getDownloadURL(fileRef).then((url) => {
-          // msg.url = url;
-          //Making a reference to the database, to the location where we want to edit (database, URL), the URL is found from accessing our Firebase database console:
-          let pokeRef = ref(
-            database,
-            `users/${user.name.toLowerCase()}/topten/${pokeName}`
+      //Retrieve the reference above in the following line:
+      get(pokeRef).then((response) => {
+        // response.val() gives the value at the URL
+        //Make a copy of the response data which is currently an object
+        let copiedData = { ...response.val() };
+        //Reassign value based on updated state (name and level and image URL)
+        //Update the object (copiedData's property of 'name') to the state
+        //similar to : object-name.property = new value
+        if (editPokeName) {
+          copiedData["nickName"] = editPokeName;
+        }
+
+        if (editLevel) {
+          copiedData["level"] = editLevel;
+        }
+        //set(pokeRef, var of the copied and edited object) [the actual updating of the firebase]
+        if (fileInputFile) {
+          const fileRef = storeRef(
+            storage,
+            `${STORE_IMAGE_KEY}/${fileInputFile.name}`
           );
-          //Retrieve the reference above in the following line:
-          get(pokeRef).then((response) => {
-            // response.val() gives the value at the URL
-            //Make a copy of the response data which is currently an object
-            let copiedData = { ...response.val() };
-            console.log(copiedData);
-            //Reassign value based on updated state (name and level and image URL)
-            //Update the object (copiedData's property of 'name') to the state
-            //similar to : object-name.property = new value
-            copiedData["nickName"] = editPokeName;
-            copiedData["level"] = editLevel;
-            //set(pokeRef, var of the copied and edited object) [the actual updating of the firebase]
-            copiedData["customImg"] = url;
-            set(pokeRef, copiedData);
+          uploadBytesResumable(fileRef, fileInputFile).then(() => {
+            getDownloadURL(fileRef).then((url) => {
+              copiedData["customImg"] = url;
+              // msg.url = url;
+
+              set(pokeRef, copiedData);
+            });
           });
-        });
+        } else {
+          set(pokeRef, copiedData);
+        }
       });
+      setEditPokeName("");
+      setEditLevel("");
+      setEditShow(false);
     }
 
     // DANIEL TAKE A LOOK AT THE BELOW COMMENTED OUT CODE
@@ -96,10 +108,10 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
   };
 
   const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
+    // console.log(e.target.files[0]);
     setFileInputFile(e.target.files[0]);
-    console.log(e.target.value);
-    setFileInputValue(e.target.value);
+    // console.log(e.target.value);
+    // setFileInputValue(e.target.value);
   };
 
   return (
@@ -108,49 +120,46 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
         <button onClick={handleNavigate} id="">
           Back
         </button>
-        <div>
-          <PokeData topten={topten} wishlist={wishlist} />
 
-          {listName === "topten" ? (
-            <button className="edit-poke-name" onClick={handleEditPokeName}>
-              Edit Pokemon
-            </button>
-          ) : null}
+        <PokeData topten={topten} wishlist={wishlist} />
 
-          {editPokeName ? (
-            <div>
-              <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  onChange={handleChange}
-                  id="name-change"
-                  placeholder="enter new name for pokemon"
-                  className="field-css"
-                  value={editPokeName}
-                />
-                <br />
-                <input
-                  type="text"
-                  onChange={handleChange}
-                  id="level"
-                  placeholder="enter pokemon level"
-                  className="field-css"
-                  value={editLevel}
-                />
-                <br />
-                <input
-                  type="file"
-                  onChange={handleFileChange}
-                  id="image"
-                  placeholder="upload new image"
-                />
-                <button type="submit">Submit</button>
-              </form>
-            </div>
-          ) : (
-            console.log("can't change name")
-          )}
-        </div>
+        {listName === "topten" ? (
+          <button className="edit-poke-name" onClick={handleEditPokeName}>
+            Edit Pokemon
+          </button>
+        ) : null}
+
+        {editShow ? (
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              onChange={handleChange}
+              id="name-change"
+              placeholder="enter new name for pokemon"
+              className="field-css"
+              value={editPokeName}
+            />
+            <br />
+            <input
+              type="text"
+              onChange={handleChange}
+              id="level"
+              placeholder="enter pokemon level"
+              className="field-css"
+              value={editLevel}
+            />
+            <br />
+            <input
+              type="file"
+              onChange={handleFileChange}
+              id="image"
+              placeholder="upload new image"
+            />
+            <button type="submit">Submit</button>
+          </form>
+        ) : (
+          console.log("can't change name")
+        )}
       </div>
       <NavBar />
     </div>

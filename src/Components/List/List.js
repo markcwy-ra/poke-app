@@ -40,7 +40,11 @@ const List = ({ list, listOrder, setOrder = null, id }) => {
           }}
         >
           <h2 className="rank">{index + 1}</h2>
-          <h2>{list[pokemon].name}</h2>
+          <h2>
+            {list[pokemon].nickName
+              ? list[pokemon].nickName
+              : list[pokemon].name}
+          </h2>
           <img src={list[pokemon].imgURL} alt={list[pokemon].name} />
         </div>
         {setOrder && (
