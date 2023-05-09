@@ -80,12 +80,12 @@ const SearchPokeScreen = ({ DB_USERS_KEY }) => {
     const pokeRef = ref(
       database,
       DB_USERS_KEY +
-        "/" +
-        user.name.toLowerCase() +
-        "/" +
-        e.target.id +
-        "/" +
-        pokeName
+      "/" +
+      user.name.toLowerCase() +
+      "/" +
+      e.target.id +
+      "/" +
+      pokeName
     );
     const listOrderRef = ref(
       database,
@@ -95,23 +95,20 @@ const SearchPokeScreen = ({ DB_USERS_KEY }) => {
       if (data.exists()) {
         alert("pokemon in list");
       } else {
-        set(pokeRef, pokeData) //setPokeData(retrievedData);
-          .then(() => {
-            get(listOrderRef).then((data) => {
-              if (data.exists()) {
-                if (data.val().length === 10) {
-                  alert("cannot add anymore");
-                } else {
-                  const newList = [...data.val(), pokeName];
-                  set(listOrderRef, newList);
-                }
-              } else {
-                set(listOrderRef, [pokeName]);
-              }
-            });
-          });
-      }
-    });
+        get(listOrderRef).then((data) => {
+          if (data.val().length == 10) {
+            alert("cannot add anymore");
+          } else if (data.val().length < 10) {
+            set(pokeRef, pokeData) //setPokeData(retrievedData);
+            const newList = [...data.val(), pokeName];
+            set(listOrderRef, newList);
+          } else if (data.val().length == null) {
+            set(listOrderRef, [pokeName]);
+          }
+        });
+      };
+    }
+    )
   };
   return (
     <div className="pokeSearch">
@@ -179,4 +176,5 @@ const SearchPokeScreen = ({ DB_USERS_KEY }) => {
     </div>
   );
 };
+
 export default SearchPokeScreen;
