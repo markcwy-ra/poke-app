@@ -5,15 +5,16 @@
   padding-bottom: 20px;
 }
 
-#splash h1 {
-  font-size: calc(15vw);
-}
-
 #splash img {
   width: 70%;
 }
 
 #splash .buttons {
   display: flex;
-  gap: 10px;
+  gap: 20px;
+}
+
+#splash .buttons button {
+  font-size: 30px;
+  padding: 10px 20px;
 }
