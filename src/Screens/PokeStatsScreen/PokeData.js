@@ -32,14 +32,18 @@ const PokeData = ({ topten, wishlist }) => {
 			<div>
 				<h1>
 					{listName === "topten" && `${user.name}'s `}
-					{pokeData.name}
+					{pokeData.nickName ? pokeData.nickName : pokeData.name}
+					{/*If pokemon has nickname, show nickname */}
+					{/*else show pokemon's original name */}
 				</h1>
 				<img
 					className={pokeData.type[0]}
-					src={pokeData.imgURL}
+					src={pokeData.customImg ? pokeData.customImg : pokeData.imgURL}
 					alt={pokeData.name}
 				/>
 				<div className="poke-types">{typeList}</div>
+				{/* Put the level here*/}
+				<div>Level: {pokeData.level}</div>
 			</div>
 
 		</div>
