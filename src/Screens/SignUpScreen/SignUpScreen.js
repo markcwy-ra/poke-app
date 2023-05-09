@@ -4,6 +4,7 @@ import { auth, database } from "../../firebase";
 import { NavContext, UserContext } from "../../App";
 import "./SignUpScreen.css";
 import { get, ref, set } from "firebase/database";
+import HeaderBar from "../../Components/HeaderBar/HeaderBar";
 
 const userIcons = [
   "https://i.imgur.com/XZTIoPq.png",
@@ -20,7 +21,7 @@ const isValid = (input) => {
 
 const SignUpScreen = (props) => {
   const { setUser } = useContext(UserContext);
-  const { navigate, handleNavigate } = useContext(NavContext);
+  const { navigate } = useContext(NavContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -84,8 +85,8 @@ const SignUpScreen = (props) => {
       onClick={(e) => {
         e.preventDefault();
         setPic(url);
-        e.currentTarget.classList.toggle("selected");
       }}
+      className={pic === url ? "selected" : ""}
     >
       <img src={url} alt={`user-icon-${index}`} />
     </button>
@@ -93,17 +94,16 @@ const SignUpScreen = (props) => {
 
   return (
     <div className="contents">
-      <div id="signup">
-        <button onClick={handleNavigate} id="">
-          Back
-        </button>
-        <h1>Signup</h1>
+      <HeaderBar title="Sign Up" button="back" />
+      <div id="signup-screen">
+        <h1>Create a New Account</h1>
         <form>
           <input
             id="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            autoComplete="off"
             placeholder="Enter Username"
           />
           <input
@@ -111,6 +111,7 @@ const SignUpScreen = (props) => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="username"
             placeholder="Enter email"
           />
           <input
@@ -118,6 +119,7 @@ const SignUpScreen = (props) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="new-password"
             placeholder="Enter password"
           />
           <input
@@ -125,6 +127,7 @@ const SignUpScreen = (props) => {
             type="password"
             value={passwordAgain}
             onChange={(e) => setPasswordAgain(e.target.value)}
+            autoComplete="new-password"
             placeholder="Re-enter password"
           />
           <p>Select your character</p>

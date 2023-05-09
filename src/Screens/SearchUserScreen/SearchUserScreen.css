@@ -3,6 +3,15 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+#user-search form {
+  width: 100%;
+}
+
+#user-search form input {
+  width: 100%;
 }
 
 #user-search #user-search-results {
@@ -18,6 +27,9 @@
 #user-search #user-search-results #user-search-profile {
   display: flex;
   width: 100%;
+  cursor: pointer;
+  background-color: #2d71b7;
+  color: white;
 }
 
 #user-search #user-search-results .user-poke {

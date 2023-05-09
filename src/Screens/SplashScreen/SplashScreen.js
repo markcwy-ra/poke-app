@@ -7,11 +7,7 @@ const SplashScreen = () => {
 
   return (
     <div id="splash" className="contents">
-      <h1>Poké Rank</h1>
-      <img
-        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
-        alt="POKEMON"
-      />
+      <img src="./images/PokeRank.svg" alt="POKEMON" />
       <div className="buttons">
         <button onClick={handleNavigate} id="login">
           Login

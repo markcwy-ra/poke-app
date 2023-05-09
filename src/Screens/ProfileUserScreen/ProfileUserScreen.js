@@ -44,7 +44,7 @@ const ProfileUserScreen = () => {
     <div className="contents">
       {userData ? (
         <>
-          <HeaderBar title={userData.name} userData={userData} button={false} />
+          <HeaderBar title={userData.name} userData={userData} />
           <div id="profile-lists">
             <div id="profile-lists-tabs">
               <button

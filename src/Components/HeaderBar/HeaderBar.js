@@ -11,7 +11,7 @@ const userObj = {
   pic: null,
 };
 
-const HeaderBar = ({ title, userData = null, button = true }) => {
+const HeaderBar = ({ title, userData = null, button = false }) => {
   const { user, setUser } = useContext(UserContext);
   const { navigate } = useContext(NavContext);
 
@@ -20,10 +20,29 @@ const HeaderBar = ({ title, userData = null, button = true }) => {
     signOut(auth);
   };
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     handleLogOut();
-    navigate("/");
+    if (e.target.id === "/") {
+      navigate("/");
+    } else if (e.target.id === "back") {
+      navigate(-1);
+    }
   };
+
+  let buttonDisplay;
+  if (button === "logout") {
+    buttonDisplay = (
+      <button onClick={handleClick} id="/">
+        Log Out
+      </button>
+    );
+  } else if (button === "back") {
+    buttonDisplay = (
+      <button onClick={handleClick} id="back">
+        Back
+      </button>
+    );
+  }
 
   return (
     <div id="header">
@@ -32,11 +51,7 @@ const HeaderBar = ({ title, userData = null, button = true }) => {
         {userData && <img src={userData.pic} alt={userData.name} />}
         <h1>{title}</h1>
       </div>
-      {button && (
-        <button onClick={handleClick} id="/">
-          Log Out
-        </button>
-      )}
+      {buttonDisplay}
     </div>
   );
 };
