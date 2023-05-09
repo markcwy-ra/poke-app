@@ -36,6 +36,15 @@ h2 {
   font-size: 36px;
 }
 
+@media (max-width: 500px) {
+  h1 {
+    font-size: 45px;
+  }
+  h2 {
+    font-size: 22px;
+  }
+}
+
 .contents {
   height: calc(100% - 50px);
   display: flex;

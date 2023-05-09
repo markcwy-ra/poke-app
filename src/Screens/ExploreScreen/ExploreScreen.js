@@ -1,11 +1,24 @@
+//--------- Firebase ---------//
+
+import { get, ref } from "firebase/database";
+import { database } from "../../firebase";
+
+//----------- React -----------//
+
 import { useContext, useEffect, useState } from "react";
+
+//-------- Components ---------//
+
 import HeaderBar from "../../Components/HeaderBar/HeaderBar";
 import NavBar from "../../Components/NavBar/NavBar";
 import "./ExploreScreen.css";
+
+//--------- Variables  ---------//
+
 import { NavContext, UserContext } from "../../App";
 import { randomIndex } from "../../utils";
-import { get, ref } from "firebase/database";
-import { database } from "../../firebase";
+
+//------------------------------//
 
 const ExploreScreen = ({ userList }) => {
   const { navigate } = useContext(NavContext);
@@ -32,7 +45,8 @@ const ExploreScreen = ({ userList }) => {
         });
       }
     });
-  }, [randNo, list, DB_USERS_KEY]);
+    // eslint-disable-next-line
+  }, [randNo, list]);
 
   const handleClick = (e) => {
     e.preventDefault();
