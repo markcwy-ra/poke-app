@@ -21,7 +21,6 @@ const List = ({ list, listOrder, setOrder = null, id }) => {
     } else if (label.includes("down")) {
       reorderedList.splice(index + 1, 0, ...targetItem);
     } else if (label.includes("delete")) {
-      console.log(targetItem);
       const itemRef = ref(database, DB_CURRENT_KEY + "/" + targetItem);
       remove(itemRef);
     }
@@ -49,11 +48,15 @@ const List = ({ list, listOrder, setOrder = null, id }) => {
             <button onClick={handleClick} id={index + "-delete"}>
               X
             </button>
-            <button onClick={handleClick} id={index + "-up"}>
+            <button onClick={index > 0 ? handleClick : null} id={index + "-up"}>
               ⬆
             </button>
 
-            <button onClick={handleClick} id={index + "-down"} index={index}>
+            <button
+              onClick={index < listOrder.length ? handleClick : null}
+              id={index + "-down"}
+              index={index}
+            >
               ⬇
             </button>
           </div>

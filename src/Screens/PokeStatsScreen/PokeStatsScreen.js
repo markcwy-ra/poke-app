@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { NavContext, UserContext } from "../../App";
 import NavBar from "../../Components/NavBar/NavBar";
@@ -14,6 +14,7 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
   const [editLevel, setEditLevel] = useState("")
   const [fileInputFile, setFileInputFile] = useState(null)
   const [fileInputValue, setFileInputValue] = useState("")
+
   const { link } = useParams();
   const { handleNavigate } = useContext(NavContext);
   const { user } = useContext(UserContext);
@@ -22,27 +23,14 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
   const pokeName = rest.join("-");
   const STORE_IMAGE_KEY = "images";
 
-  let pokeData;
-  if (listName === "topten") {
-    pokeData = topten[pokeName];
-  } else if (listName === "wishlist") {
-    pokeData = wishlist[pokeName];
-  }
-
-  let typeList = pokeData.type.map((type) => (
-    <div key={type} className={`poke-type ${type}`}>
-      {type}
-    </div>
-  ));
-
   const handleEditPokeName = () => {
-    setEditPokeName(true)
-    console.log("change pokemon name", editPokeName)
-  }
+    setEditPokeName(true);
+    console.log("change pokemon name", editPokeName);
+  };
 
   const handleChange = (e) => {
     if (e.target.id === "name-change") {
-      setEditPokeName(e.target.value)
+      setEditPokeName(e.target.value);
     } else if (e.target.id === "level") {
       if (e.target.value <= 100) {
         setEditLevel(e.target.value)
@@ -50,11 +38,13 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
         alert("Please enter a level below 100")
 
       }
+
     }
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
 
     if (listName == "topten") {
 
@@ -97,8 +87,9 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
           console.log('cannot add to wishlist anymore')
         }
       })
+
     }
-  }
+  };
 
   const handleFileChange = (e) => {
     console.log(e.target.files[0]);
@@ -114,8 +105,9 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
         <button onClick={handleNavigate} id="">
           Back
         </button>
-        <div >
+        <div>
           <PokeData topten={topten} wishlist={wishlist} />
+
           {
             (listName == "topten") ?
               <button className="edit-poke-name" onClick={handleEditPokeName}>Edit Pokemon</button> : null
@@ -144,6 +136,7 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
                   />
                   <br />
                   <input
+
                     type="file"
                     onChange={handleFileChange}
                     id="image"
@@ -156,9 +149,8 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
               </div>
               : (console.log("can't change name"))
           }
+
         </div>
-
-
       </div>
       <NavBar />
     </div>

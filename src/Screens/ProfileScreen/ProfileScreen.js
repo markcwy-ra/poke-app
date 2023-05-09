@@ -30,7 +30,7 @@ const ProfileScreen = ({
 
   return (
     <div className="contents">
-      <HeaderBar title={user.name} />
+      <HeaderBar title={user.name} button="logout" />
       <div id="profile-lists">
         <div id="profile-lists-tabs">
           <button

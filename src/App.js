@@ -2,7 +2,13 @@
 
 import { database, auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { ref, onValue, onChildAdded } from "firebase/database";
+import {
+  ref,
+  onValue,
+  onChildAdded,
+  onChildRemoved,
+  onChildChanged,
+} from "firebase/database";
 
 //----------- React -----------//
 
@@ -15,7 +21,7 @@ import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 //---------- Screens  ----------//
 
 import SplashScreen from "./Screens/SplashScreen/SplashScreen";
-import LoginScreen from "./Screens/LoginScreen";
+import LoginScreen from "./Screens/LoginScreen/LoginScreen";
 import SignUpScreen from "./Screens/SignUpScreen/SignUpScreen";
 import ProfileScreen from "./Screens/ProfileScreen/ProfileScreen";
 import PokeStatsScreen from "./Screens/PokeStatsScreen/PokeStatsScreen";
@@ -81,18 +87,58 @@ const App = () => {
         database,
         CURRENT_USER_KEY + "/wishlistorder"
       );
-      onValue(toptenRef, (snapshot) => {
-        const data = snapshot.val();
-        setTopten(data);
+
+      // for topten content updates
+      onChildAdded(toptenRef, (data) => {
+        const newItem = {
+          [data.key]: data.val(),
+        };
+        setTopten((prevData) => ({ ...prevData, ...newItem }));
       });
+      onChildRemoved(toptenRef, (data) => {
+        setTopten((prevData) => {
+          const updatedData = { ...prevData };
+          delete updatedData[data.key];
+          return updatedData;
+        });
+      });
+      onChildChanged(toptenRef, (data) => {
+        setTopten((prevData) => {
+          const updatedData = { ...prevData };
+          updatedData[data.key] = data.val();
+          return updatedData;
+        });
+      });
+
+      // for topten order updates
       onValue(toptenorderRef, (snapshot) => {
         const data = snapshot.val();
         setToptenorder(data);
       });
-      onValue(wishlistRef, (snapshot) => {
-        const data = snapshot.val();
-        setWishlist(data);
+
+      // for wishlist content updates
+      onChildAdded(wishlistRef, (data) => {
+        const newItem = {
+          [data.key]: data.val(),
+        };
+        setWishlist((prevData) => ({ ...prevData, ...newItem }));
       });
+      onChildRemoved(wishlistRef, (data) => {
+        setWishlist((prevData) => {
+          const updatedData = { ...prevData };
+          delete updatedData[data.key];
+          return updatedData;
+        });
+      });
+      onChildChanged(wishlistRef, (data) => {
+        setWishlist((prevData) => {
+          const updatedData = { ...prevData };
+          updatedData[data.key] = data.val();
+          return updatedData;
+        });
+      });
+
+      // for wishlist order updates
       onValue(wishlistorderRef, (snapshot) => {
         const data = snapshot.val();
         setWishlistorder(data);

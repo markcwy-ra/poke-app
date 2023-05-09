@@ -1,13 +1,12 @@
-import React from 'react'
+import React from "react";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
-import { NavContext, UserContext } from "../../App";
+import { UserContext } from "../../App";
 // import NavBar from "../../Components/NavBar/NavBar";
 import "./PokeStatsScreen.css";
 
 const PokeData = ({ topten, wishlist }) => {
 	const { link } = useParams();
-	const { handleNavigate } = useContext(NavContext);
 	const { user } = useContext(UserContext);
 	const [first, ...rest] = link.split("-");
 	const listName = first;
@@ -49,10 +48,4 @@ const PokeData = ({ topten, wishlist }) => {
 		</div>
 	);
 };
-export default PokeData
-
-
-
-
-
-
+export default PokeData;

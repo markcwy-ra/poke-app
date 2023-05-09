@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { get, ref } from "firebase/database";
 import { database } from "../../firebase";
 import { NavContext, UserContext } from "../../App";
@@ -9,6 +9,7 @@ import "./SearchUserScreen.css";
 const SearchUserScreen = ({ userList }) => {
   const [input, setInput] = useState("");
   const [foundUser, setFoundUser] = useState(null);
+  const [display, setDisplay] = useState(null);
   const { user, DB_USERS_KEY } = useContext(UserContext);
   const { navigate } = useContext(NavContext);
 
@@ -19,7 +20,7 @@ const SearchUserScreen = ({ userList }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (user.name.toLowerCase() === input.toLowerCase()) {
-      alert("Why are you searching for yourself?");
+      setDisplay(<h1>Why are you searching for yourself?</h1>);
     } else if (userList.includes(input.toLowerCase())) {
       const foundUserRef = ref(
         database,
@@ -29,7 +30,7 @@ const SearchUserScreen = ({ userList }) => {
         setFoundUser({ name: response.val().name, pic: response.val().pic })
       );
     } else {
-      setFoundUser(null);
+      setFoundUser("none");
     }
     setInput("");
   };
@@ -38,25 +39,26 @@ const SearchUserScreen = ({ userList }) => {
     navigate("/search/" + foundUser.name.toLowerCase());
   };
 
-  let userDisplay;
-
-  if (foundUser) {
-    userDisplay = (
-      <div id="user-search-results">
-        <button id="user-search-profile" onClick={handleClick}>
-          <img src={foundUser.pic} alt={foundUser.name} />
-          <h1>{foundUser.name}</h1>
-        </button>
-      </div>
-    );
-  } else {
-    userDisplay = <h1>No User Found!</h1>;
-  }
+  useEffect(() => {
+    if (foundUser === "none") {
+      setDisplay(<h1>No User Found!</h1>);
+    } else if (foundUser) {
+      setDisplay(
+        <div id="user-search-results">
+          <button id="user-search-profile" onClick={handleClick}>
+            <img src={foundUser.pic} alt={foundUser.name} />
+            <h1>{foundUser.name}</h1>
+          </button>
+        </div>
+      );
+    }
+    // eslint-disable-next-line
+  }, [foundUser]);
 
   return (
     <div className="contents">
+      <HeaderBar title={"User Search"} />
       <div id="user-search">
-        <HeaderBar title={"User Search"} />
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -65,7 +67,7 @@ const SearchUserScreen = ({ userList }) => {
             placeholder="Enter Username"
           />
         </form>
-        {userDisplay}
+        {display}
       </div>
       <NavBar />
     </div>

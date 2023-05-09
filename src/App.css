@@ -24,20 +24,29 @@ body {
 .App {
   height: 100%;
   text-align: center;
-  background-color: #282c34;
+  background-color: #35486e;
   padding: 20px;
 }
 
 h1 {
-  font-size: 45px;
+  font-size: 55px;
 }
 
 h2 {
   font-size: 36px;
 }
 
+@media (max-width: 500px) {
+  h1 {
+    font-size: 45px;
+  }
+  h2 {
+    font-size: 22px;
+  }
+}
+
 .contents {
-  height: 100%;
+  height: calc(100% - 50px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,6 +59,9 @@ button {
   padding: 5px;
   height: fit-content;
   width: fit-content;
+  border-radius: 20px;
+  padding: 5px 10px;
+  border: none;
 }
 
 form input {
