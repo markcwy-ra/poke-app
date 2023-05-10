@@ -80,12 +80,12 @@ const SearchPokeScreen = ({ DB_USERS_KEY }) => {
     const pokeRef = ref(
       database,
       DB_USERS_KEY +
-        "/" +
-        user.name.toLowerCase() +
-        "/" +
-        e.target.id +
-        "/" +
-        pokeName
+      "/" +
+      user.name.toLowerCase() +
+      "/" +
+      e.target.id +
+      "/" +
+      pokeName
     );
     const listOrderRef = ref(
       database,
@@ -102,8 +102,10 @@ const SearchPokeScreen = ({ DB_USERS_KEY }) => {
             set(pokeRef, pokeData); //setPokeData(retrievedData);
             const newList = [...data.val(), pokeName];
             set(listOrderRef, newList);
+            alert("pokemon added")
           } else if (data.val().length === null) {
             set(listOrderRef, [pokeName]);
+            alert("pokemon added")
           }
         });
       }
