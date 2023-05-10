@@ -21,8 +21,8 @@ const HeaderBar = ({ title, userData = null, button = false }) => {
   };
 
   const handleClick = (e) => {
-    handleLogOut();
     if (e.target.id === "/") {
+      handleLogOut();
       navigate("/");
     } else if (e.target.id === "back") {
       navigate(-1);

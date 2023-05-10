@@ -9,8 +9,8 @@
 }
 
 #poke-stats img {
-  max-height: 30%;
-  max-width: auto;
+  max-height: 300px;
+  max-width: 300px;
   flex: 1;
   border-radius: 20px;
   padding: 20px;

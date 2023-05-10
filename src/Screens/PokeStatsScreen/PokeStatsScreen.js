@@ -12,6 +12,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { storage } from "../../firebase";
+import HeaderBar from "../../Components/HeaderBar/HeaderBar";
 
 const PokeStatsScreen = ({ topten, wishlist }) => {
   const [editShow, setEditShow] = useState(false);
@@ -46,7 +47,6 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (listName === "topten") {
       //Making a reference to the database, to the location where we want to edit (database, URL), the URL is found from accessing our Firebase database console:
       let pokeRef = ref(
@@ -64,7 +64,6 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
         if (editPokeName) {
           copiedData["nickName"] = editPokeName;
         }
-
         if (editLevel) {
           copiedData["level"] = editLevel;
         }
@@ -78,7 +77,6 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
             getDownloadURL(fileRef).then((url) => {
               copiedData["customImg"] = url;
               // msg.url = url;
-
               set(pokeRef, copiedData);
             });
           });
@@ -116,11 +114,8 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
 
   return (
     <div className="contents">
+      <HeaderBar title="" button="back" />
       <div id="poke-stats">
-        <button onClick={handleNavigate} id="">
-          Back
-        </button>
-
         <PokeData topten={topten} wishlist={wishlist} />
 
         {listName === "topten" ? (
@@ -129,7 +124,7 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
           </button>
         ) : null}
 
-        {editShow ? (
+        {editShow && (
           <form onSubmit={handleSubmit}>
             <input
               type="text"
@@ -157,8 +152,6 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
             />
             <button type="submit">Submit</button>
           </form>
-        ) : (
-          console.log("can't change name")
         )}
       </div>
       <NavBar />

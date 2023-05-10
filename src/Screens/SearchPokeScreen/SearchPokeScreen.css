@@ -1,8 +1,7 @@
 .pokeSearch {
   position: relative;
-  background-color: #282c34;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  flex: 1;
 }
 
 .addPoke {
@@ -38,11 +37,15 @@
 }
 
 .results {
-  background-color: blue;
   color: white;
   height: 3rem;
   font-size: 2rem;
 }
+
+#fail {
+  color: rgb(197, 48, 48);
+}
+
 .plus,
 .star {
   /* flex-basis: 10%; */

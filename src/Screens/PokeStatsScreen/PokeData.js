@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { UserContext } from "../../App";
 // import NavBar from "../../Components/NavBar/NavBar";
 import "./PokeStatsScreen.css";
+import { formatName } from "../../utils";
 
 const PokeData = ({ topten, wishlist }) => {
   const { link } = useParams();
@@ -39,8 +40,8 @@ const PokeData = ({ topten, wishlist }) => {
         alt={pokeData.name}
       />
       <div className="poke-types">{typeList}</div>
-      {/* Put the level here*/}
-      {pokeData.level && <div>Level: {pokeData.level}</div>}
+      {pokeData.nickName && <p>Species: {formatName(pokeName)}</p>}
+      {pokeData.level && <p>Level: {pokeData.level}</p>}
     </>
   );
 };

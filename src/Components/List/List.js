@@ -3,10 +3,12 @@ import "./List.css";
 import { NavContext, UserContext } from "../../App";
 import { ref, remove, set } from "firebase/database";
 import { database } from "../../firebase";
+import { useLocation } from "react-router-dom";
 
 const List = ({ list, listOrder, setOrder = null, id }) => {
   const { navigate } = useContext(NavContext);
   const { user, DB_USERS_KEY } = useContext(UserContext);
+  const location = useLocation();
 
   const handleClick = (e) => {
     const label = e.target.id;
@@ -30,13 +32,17 @@ const List = ({ list, listOrder, setOrder = null, id }) => {
   };
 
   let displayList;
-  if (list) {
+  if (list && listOrder) {
     displayList = listOrder.map((pokemon, index) => (
       <div className="list-item" key={pokemon}>
         <div
           className="list-item-button"
           onClick={() => {
-            setOrder && navigate("profile/" + id + "-" + pokemon);
+            setOrder
+              ? navigate(location.pathname + "/" + id + "-" + pokemon)
+              : navigate(
+                  location.pathname + "?list=" + id + "&pokemon=" + pokemon
+                );
           }}
         >
           <h2 className="rank">{index + 1}</h2>
