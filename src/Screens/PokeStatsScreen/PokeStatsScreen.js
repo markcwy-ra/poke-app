@@ -22,7 +22,6 @@ const PokeStatsScreen = ({ topten, wishlist }) => {
   // const [fileInputValue, setFileInputValue] = useState("");
 
   const { link } = useParams();
-  const { handleNavigate } = useContext(NavContext);
   const { user } = useContext(UserContext);
   const [first, ...rest] = link.split("-");
   const listName = first;
