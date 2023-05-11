@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
-import { NavContext, UserContext } from "../../App";
+import { UserContext } from "../../App";
 import NavBar from "../../Components/NavBar/NavBar";
 import "./PokeStatsScreen.css";
 import PokeData from "./PokeData";
